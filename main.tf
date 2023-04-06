@@ -24,7 +24,7 @@ resource "azurerm_network_interface" "vm_nic" {
     name                          = "${var.vm_prefix}${format("%02s", count.index + 1)}-config"
     subnet_id                     = var.nic_subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id  = "${element(azurerm_public_ip.vm_public_ip.*.id, count.index)}"
+    public_ip_address_id          = element(azurerm_public_ip.vm_public_ip.*.id, count.index)
   }
 }
 
@@ -32,25 +32,25 @@ resource "azurerm_network_interface" "vm_nic" {
 ## Create Virtual Machine (Ubuntu)
 #########################################################
 resource "azurerm_linux_virtual_machine" "ubuntuvm" {
-  count                            = var.vm_count
-  location                         = var.location
-  resource_group_name              = var.resource_group_name
-  name                             = "${var.vm_prefix}${format("%02s", count.index + 1)}"
-  size                          = var.vm_size
-  admin_username = var.vm_admin_username
+  count               = var.vm_count
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  name                = "${var.vm_prefix}${format("%02s", count.index + 1)}"
+  size                = var.vm_size
+  admin_username      = var.vm_admin_username
   admin_ssh_key {
     username   = var.vm_admin_username
     public_key = var.vm_public_key
   }
-  network_interface_ids            = ["${element(azurerm_network_interface.vm_nic.*.id, count.index)}"]
-  availability_set_id              = var.vm_availability_set_id
-  tags                             = var.tags
+  network_interface_ids = ["${element(azurerm_network_interface.vm_nic.*.id, count.index)}"]
+  availability_set_id   = var.vm_availability_set_id
+  tags                  = var.tags
 
   os_disk {
-    name              = "${var.vm_prefix}${format("%02s", count.index + 1)}-osdisk"
-    caching           = var.vm_os_disk_caching    
+    name                 = "${var.vm_prefix}${format("%02s", count.index + 1)}-osdisk"
+    caching              = var.vm_os_disk_caching
     storage_account_type = var.vm_os_disk_storage_account_type
-    disk_size_gb      = var.vm_os_disk_size
+    disk_size_gb         = var.vm_os_disk_size
   }
 
   source_image_reference {

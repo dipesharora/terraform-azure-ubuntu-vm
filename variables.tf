@@ -16,7 +16,7 @@ variable "resource_group_name" {
 
 # Tags
 variable "tags" {
-  type        = map
+  type        = map(any)
   description = "Set this to the mapping of tags to assign to the resource."
 }
 
@@ -73,7 +73,7 @@ variable "vm_public_key" {
 
 #Managed Drives
 variable "vm_data_disk_size_list" {
-  type        = list
+  type        = list(any)
   description = "Set this to the list of sizes of the Data disks."
 }
 variable "vm_data_disk_storage_account_type" {
@@ -96,7 +96,7 @@ variable "vm_data_disk_caching" {
 variable "vm_source_image_offer" {
   type        = string
   description = "Specifies the offer of the image used to create the virtual machines."
-  default = "0001-com-ubuntu-server-focal"
+  default     = "0001-com-ubuntu-server-focal"
 }
 variable "vm_source_image_publisher" {
   type        = string
